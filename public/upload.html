@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Files</title>
+    <link rel="stylesheet" href="./public/upload.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;900&display=swap" rel="stylesheet">
+    <script src="/public/app.js" defer></script>
+    <link rel="shortcut icon" href="./public/favicon.ico" type="image/x-icon">
+</head>
+<body>
+    <nav>
+        <a href="/">Home</a>
+    </nav>
+    <main>
+        <form>
+            <h1>Upload photo</h1>
+            <label for="file">Image</label>
+            <input type="file" name="file" id="file" multiple="multiple">
+            <input type="submit" value="Submit">
+        </form>
+        <div class="response">
+            <p id="response"></p>
+        </div>
+    </main>
+    <footer></footer>
+</body>
+</html>
