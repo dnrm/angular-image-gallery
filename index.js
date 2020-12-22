@@ -25,7 +25,7 @@ app.get('/auth', (req, res) => {
 
 app.post('/api/upload', (req, res, next) => { 
 	
-	const form = new formidable.IncomingForm(); 
+	const form = new formidable({ multiple: true }); 
 	form.parse(req, function(err, fields, files){
 
 		let token = crypto.randomBytes(16).toString('hex');
