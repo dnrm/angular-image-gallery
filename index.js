@@ -1,11 +1,13 @@
 const express = require('express'); 
 const fs = require('fs'); 
 const path = require('path') 
-const formidable = require('formidable');
+const multipart = require('connect-multiparty');
 const crypto = require('crypto');
 const cors = require('cors');
 
 const app = express();
+
+let multipartMiddleware = multipart({uploadDir: './img'});
 
 app.use(cors())
 app.use('/assets/images/src', express.static('img'));
@@ -23,23 +25,31 @@ app.get('/auth', (req, res) => {
     res.sendFile(path.join(__dirname, '/public/auth.html'));
 })
 
-app.post('/api/upload', (req, res, next) => { 
-	
-	const form = new formidable({ multiple: true }); 
-	form.parse(req, function(err, fields, files){
+app.post('/api/upload', multipartMiddleware, (req, res, next) => { 
+	if (req.files) {
+		let filePath = req.files.image.path;
+		let fileSplit = filePath.split('\\');
+		let fileName = fileSplit[1];
+		let extSplit = fileName.split('\.');
+		let fileExt = extSplit[1];
+		console.log(filePath);
 
-		let token = crypto.randomBytes(16).toString('hex');
-
-		var oldPath = files.file.path; 
-		var newPath = path.join(__dirname, 'img') 
-				+ '/' + token + path.extname(files.file.name);
-		var rawData = fs.readFileSync(oldPath) 
-	
-		fs.writeFile(newPath, rawData, function(err){ 
-			if(err) console.log(err) 
-			return res.send("Successfully uploaded") 
-		}) 
-	}) 
+		if (fileExt == 'png' || fileExt == 'jpg' || fileExt == 'jpeg' || fileExt == 'gif') {
+			return res.status(200).send({
+				status: "Uploaded successfully"
+			});
+		} else {
+			fs.unlink(filePath, (err) => {
+				return res.status(400).send({
+					message: "Extension is not valid"
+				});
+			})
+		}
+	} else {
+		return res.status(500).send({
+			message: 'Image not uploaded'
+		})
+	}
 });
 
 app.get('/api/get-image-urls', (req, res) => {
