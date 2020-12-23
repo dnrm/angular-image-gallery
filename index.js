@@ -17,10 +17,6 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '/public/index.html'));
 })
 
-app.get('/upload', (req, res) => {
-    res.sendFile(path.join(__dirname, '/public/upload.html'));
-})
-
 app.get('/auth', (req, res) => {
     res.sendFile(path.join(__dirname, '/public/auth.html'));
 })
@@ -60,14 +56,14 @@ app.get('/api/get-image-urls', (req, res) => {
 
 		const urls = [];	
 		for (let i = 0; i < files.length; i++) {
-			urls.push(`http://192.168.1.125/assets/images/src/${files[i]}`)
+			urls.push(`http://localhost/assets/images/src/${files[i]}`)
 		}
 		res.status(200).send(urls);
 	})
 })
 
-app.get('/auth_config.json', (req, res) => {
-	res.sendFile(path.join(__dirname, '/public/auth_config.json'))
+app.get('**', (req, res) => {
+	res.sendFile(path.join(__dirname, '/public/index.html'))
 })
 
 app.listen(80, () => {
