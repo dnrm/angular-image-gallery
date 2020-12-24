@@ -4,6 +4,7 @@ const path = require('path')
 const multipart = require('connect-multiparty');
 const crypto = require('crypto');
 const cors = require('cors');
+const helmet = require('helmet');
 
 const port = process.env.PORT || 3000;
 
@@ -11,7 +12,8 @@ const app = express();
 
 let multipartMiddleware = multipart({uploadDir: './img'});
 
-app.use(cors())
+app.use(helmet());
+app.use(cors());
 app.use('/assets/images/src', express.static('img'));
 app.use('/public', express.static('public'));
 
