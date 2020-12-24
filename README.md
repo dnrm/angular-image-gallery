@@ -1,4 +1,4 @@
-# Fulstack Image Gallery With Angular
+# Fullstack Image Gallery With Angular
 
 This image gallery has the capability to upload images to it using a REST API build with nodejs and express.
 
