@@ -3,7 +3,6 @@ const express = require('express');
 const fs = require('fs'); 
 const path = require('path') 
 const multipart = require('connect-multiparty');
-const crypto = require('crypto');
 const cors = require('cors');
 const helmet = require('helmet');
 
@@ -72,5 +71,5 @@ app.get('**', (req, res) => {
 })
 
 app.listen(port, () => {
-	console.log(`App listening on http://localhost${port}`);
+	console.log(`App listening on http://localhost:${port}`);
 });
