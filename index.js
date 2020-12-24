@@ -14,7 +14,7 @@ let multipartMiddleware = multipart({uploadDir: './img'});
 
 app.use(helmet());
 app.use(cors());
-app.use('/assets/images/src', express.static('img'));
+app.use('/app/assets/images/src', express.static('img'));
 app.use('/app/public', express.static(path.join(__dirname, 'public')));
 
 app.get('/', (req, res) => {
@@ -25,7 +25,7 @@ app.get('/auth', (req, res) => {
     res.sendFile(path.join(__dirname, '/public/auth.html'));
 })
 
-app.post('/api/upload', multipartMiddleware, (req, res, next) => { 
+app.post('/app/api/upload', multipartMiddleware, (req, res, next) => { 
 	if (req.files) {
 		let filePath = req.files.image.path;
 		let fileSplit = filePath.split('\\');
@@ -52,7 +52,7 @@ app.post('/api/upload', multipartMiddleware, (req, res, next) => {
 	}
 });
 
-app.get('/api/get-image-urls', (req, res) => {
+app.get('/app/api/get-image-urls', (req, res) => {
 	fs.readdir(path.join(__dirname, 'img'), (err, files) => {
 		if (err) {
 			return console.log('Unable to scan directory: ' + err);
