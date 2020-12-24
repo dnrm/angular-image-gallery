@@ -68,6 +68,6 @@ app.get('**', (req, res) => {
 	res.sendFile(path.join(__dirname, '/public/index.html'))
 })
 
-app.listen(port, () => {
+app.listen(port, '127.0.0.1',  () => {
 	console.log(`Listening on http://localhost:${port}`)
 }); 
