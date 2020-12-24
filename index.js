@@ -15,7 +15,7 @@ let multipartMiddleware = multipart({uploadDir: './img'});
 app.use(helmet());
 app.use(cors());
 app.use('/assets/images/src', express.static('img'));
-app.use('/public', express.static('public'));
+app.use('/public', express.static(path.join(__dirname, 'public')));
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '/public/index.html'));
