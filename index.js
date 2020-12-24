@@ -60,7 +60,7 @@ app.get('/app/api/get-image-urls', (req, res) => {
 
 		const urls = [];	
 		for (let i = 0; i < files.length; i++) {
-			urls.push(`http://localhost/assets/images/src/${files[i]}`)
+			urls.push(`https://danielmedina.dev/app/assets/images/src/${files[i]}`)
 		}
 		res.status(200).send(urls);
 	})
