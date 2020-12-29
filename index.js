@@ -1,17 +1,21 @@
+require('dotenv').config();
 const express = require('express'); 
 const fs = require('fs'); 
 const path = require('path') 
 const multipart = require('connect-multiparty');
-const crypto = require('crypto');
 const cors = require('cors');
+const helmet = require('helmet');
+
+const port = process.env.PORT || 3000;
 
 const app = express();
 
 let multipartMiddleware = multipart({uploadDir: './img'});
 
-app.use(cors())
-app.use('/assets/images/src', express.static('img'));
-app.use('/public', express.static('public'));
+app.use(helmet());
+app.use(cors());
+app.use('/app/assets/images/src', express.static('img'));
+app.use('/app/public', express.static(path.join(__dirname, 'public')));
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '/public/index.html'));
@@ -21,7 +25,7 @@ app.get('/auth', (req, res) => {
     res.sendFile(path.join(__dirname, '/public/auth.html'));
 })
 
-app.post('/api/upload', multipartMiddleware, (req, res, next) => { 
+app.post('/app/api/upload', multipartMiddleware, (req, res, next) => { 
 	if (req.files) {
 		let filePath = req.files.image.path;
 		let fileSplit = filePath.split('\\');
@@ -48,7 +52,7 @@ app.post('/api/upload', multipartMiddleware, (req, res, next) => {
 	}
 });
 
-app.get('/api/get-image-urls', (req, res) => {
+app.get('/app/api/get-image-urls', (req, res) => {
 	fs.readdir(path.join(__dirname, 'img'), (err, files) => {
 		if (err) {
 			return console.log('Unable to scan directory: ' + err);
@@ -56,7 +60,7 @@ app.get('/api/get-image-urls', (req, res) => {
 
 		const urls = [];	
 		for (let i = 0; i < files.length; i++) {
-			urls.push(`http://localhost/assets/images/src/${files[i]}`)
+			urls.push(`https://danielmedina.dev/app/assets/images/src/${files[i]}`)
 		}
 		res.status(200).send(urls);
 	})
@@ -66,6 +70,6 @@ app.get('**', (req, res) => {
 	res.sendFile(path.join(__dirname, '/public/index.html'))
 })
 
-app.listen(80, () => {
-	console.log(`Listening on http://localhost`)
-}); 
+app.listen(port, () => {
+	console.log(`App listening on http://localhost:${port}`);
+});
